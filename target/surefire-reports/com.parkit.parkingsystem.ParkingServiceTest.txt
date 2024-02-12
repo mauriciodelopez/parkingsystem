@@ -1,4 +1,33 @@
 -------------------------------------------------------------------------------
 Test set: com.parkit.parkingsystem.ParkingServiceTest
 -------------------------------------------------------------------------------
-Tests run: 6, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.321 s - in com.parkit.parkingsystem.ParkingServiceTest
+Tests run: 6, Failures: 0, Errors: 4, Skipped: 0, Time elapsed: 0.622 s <<< FAILURE! - in com.parkit.parkingsystem.ParkingServiceTest
+processExitingVehicleTestUnableUpdate  Time elapsed: 0.006 s  <<< ERROR!
+java.lang.Error: 
+Unresolved compilation problem: 
+	The method calculateFare(Ticket) in the type FareCalculatorService is not applicable for the arguments (Ticket, boolean)
+
+	at com.parkit.parkingsystem.ParkingServiceTest.processExitingVehicleTestUnableUpdate(ParkingServiceTest.java:166)
+
+testGetNextParkingNumberIfAvailable  Time elapsed: 0.001 s  <<< ERROR!
+java.lang.Error: 
+Unresolved compilation problem: 
+	The method getNbTicket(String) is undefined for the type TicketDAO
+
+	at com.parkit.parkingsystem.ParkingServiceTest.testGetNextParkingNumberIfAvailable(ParkingServiceTest.java:178)
+
+testprocessIncomingVehicle  Time elapsed: 0.004 s  <<< ERROR!
+java.lang.Error: 
+Unresolved compilation problem: 
+	The method getNbTicket(String) is undefined for the type TicketDAO
+
+	at com.parkit.parkingsystem.ParkingServiceTest.testprocessIncomingVehicle(ParkingServiceTest.java:95)
+
+processExitingVehicleTest  Time elapsed: 0.002 s  <<< ERROR!
+java.lang.Error: 
+Unresolved compilation problems: 
+	The method getNbTicket(String) is undefined for the type TicketDAO
+	The method getNbTicket(any(String.class)) is undefined for the type TicketDAO
+
+	at com.parkit.parkingsystem.ParkingServiceTest.processExitingVehicleTest(ParkingServiceTest.java:137)
+

@@ -1,4 +1,8 @@
 -------------------------------------------------------------------------------
 Test set: com.parkit.parkingsystem.TicketDAOTest
 -------------------------------------------------------------------------------
-Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.984 s - in com.parkit.parkingsystem.TicketDAOTest
+Tests run: 1, Failures: 0, Errors: 1, Skipped: 0, Time elapsed: 0.013 s <<< FAILURE! - in com.parkit.parkingsystem.TicketDAOTest
+com.parkit.parkingsystem.TicketDAOTest  Time elapsed: 0.012 s  <<< ERROR!
+java.lang.NoClassDefFoundError: DataBaseTestConfig
+Caused by: java.lang.ClassNotFoundException: DataBaseTestConfig
+
