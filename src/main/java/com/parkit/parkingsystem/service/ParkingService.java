@@ -33,10 +33,10 @@ public class ParkingService {
             logger.info("Start processIncoming");
             String vehicleRegNumber = getVehicleRegNumber();
             
-            // Verificar si el vehículo ya está estacionado
+            // Verifier si la voiture est déjà stationée
             Ticket existingTicket = ticketDAO.getTicket(vehicleRegNumber);
             if (existingTicket != null && existingTicket.getOutTime() == null) {
-                // Si el vehículo aún no ha salido, mostrar un mensaje de error y salir del método
+                // Si la voiture n'estpas encore sortie, montrer un message d'error et sortire de la methode
                 System.out.println("Error: This vehicle is already parked. Please exit first before entering again.");
                 return;
             }
