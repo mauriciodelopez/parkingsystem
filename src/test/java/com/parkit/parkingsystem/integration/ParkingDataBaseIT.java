@@ -53,8 +53,8 @@ public class ParkingDataBaseIT {
 
     @Test
     public void testParkingACar() {
-        ParkingService parkingService = new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO);
-        parkingService.processIncomingVehicle();
+        ParkingService parkingService = new ParkingService(inputReaderUtil, parkingSpotDAO, ticketDAO);//appel les atributes
+        parkingService.processIncomingVehicle();//appel la methode
         // The line `Ticket ticket = ticketDAO.getTicket("ABCDEF");` is retrieving a ticket object from
         // the ticketDAO (Ticket Data Access Object) using the vehicle registration number "ABCDEF" as
         // a parameter. The retrieved ticket object is then assigned to the `ticket` variable.
