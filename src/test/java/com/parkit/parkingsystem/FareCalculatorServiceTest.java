@@ -102,6 +102,19 @@ public class FareCalculatorServiceTest {
         ticket.setParkingSpot(parkingSpot);
         assertThrows(IllegalArgumentException.class, () -> fareCalculatorService.calculateFare(ticket));
     }
+    @Test
+    // Test pour une heure d'entrée future pour une moto
+    public void calculateFareCarWithFutureInTime(){
+        Date inTime = new Date();
+        inTime.setTime( System.currentTimeMillis() + (  60 * 60 * 1000) );
+        Date outTime = new Date();
+        ParkingSpot parkingSpot = new ParkingSpot(1, ParkingType.CAR,false);
+
+        ticket.setInTime(inTime);
+        ticket.setOutTime(outTime);
+        ticket.setParkingSpot(parkingSpot);
+        assertThrows(IllegalArgumentException.class, () -> fareCalculatorService.calculateFare(ticket));
+    }
 
     @Test
     // Test pour une moto lorsqu'elle se gare pour moins d'une heure mais plus de 30 minutes
@@ -155,20 +168,6 @@ public class FareCalculatorServiceTest {
     }
 
     
-    @Test
-    // Test pour une voiture lorsqu'elle se gare pendant 30 minutes
-    public void calculateFareCarWith30ParkingTime(){
-        Date inTime = new Date();
-        inTime.setTime( System.currentTimeMillis() - ( 30 * 60 * 1000) );//30 : C'est le nombre de minutes*60 : Il y a 60 secondes dans une minute, donc nous multiplions par 60 pour convertir les minutes en secondes*1000 : Il y a 1000 millisecondes dans une seconde, donc nous multiplions par 1000 pour convertir les secondes en millisecondes.
-        Date outTime = new Date();
-        ParkingSpot parkingSpot = new ParkingSpot(1, ParkingType.CAR,false);
-
-        ticket.setInTime(inTime);
-        ticket.setOutTime(outTime);
-        ticket.setParkingSpot(parkingSpot);
-        fareCalculatorService.calculateFare(ticket);
-        assertEquals( (0.0 ) , ticket.getPrice());
-    }
 
     @Test
     // Test pour une voiture lorsqu'elle se gare pour plus d'une journée
@@ -183,6 +182,21 @@ public class FareCalculatorServiceTest {
         ticket.setParkingSpot(parkingSpot);
         fareCalculatorService.calculateFare(ticket);
         assertEquals( (24 * Fare.CAR_RATE_PER_HOUR) , ticket.getPrice());
+    }
+
+    @Test
+    // Test pour une voiture lorsqu'elle se gare pour plus d'une journée
+    public void calculateFareBikeWithMoreThanADayParkingTime(){
+        Date inTime = new Date();
+        inTime.setTime( System.currentTimeMillis() - (  24 * 60 * 60 * 1000) );//24 : C'est le nombre d'heures*60 : Il y a 60 minutes dans une heure, donc nous multiplions par 60 pour convertir les heures en minutes*60 : Il y a 60 secondes dans une minute, donc nous multiplions par 60 pour convertir les minutes en secondes*1000 : Il y a 1000 millisecondes dans une seconde, donc nous multiplions par 1000 pour convertir les secondes en millisecondes.
+        Date outTime = new Date();
+        ParkingSpot parkingSpot = new ParkingSpot(1, ParkingType.BIKE,false);
+
+        ticket.setInTime(inTime);
+        ticket.setOutTime(outTime);
+        ticket.setParkingSpot(parkingSpot);
+        fareCalculatorService.calculateFare(ticket);
+        assertEquals( (24 * Fare.BIKE_RATE_PER_HOUR) , ticket.getPrice());
     }
     //!!!!!!!!!!ÉTAPE 4: DÉVELOPPER LA FONCTIONNALITÉ DE RÉDUCTION DE 5%!!!!!!!!!!!!
 

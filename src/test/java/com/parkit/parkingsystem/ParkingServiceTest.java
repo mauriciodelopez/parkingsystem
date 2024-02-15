@@ -19,9 +19,6 @@ import org.mockito.InjectMocks;
 
 import java.util.Date;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 
@@ -73,7 +70,7 @@ public class ParkingServiceTest {
      * that the saveTicket method in the ticketDAO object is called once.
      */
     @Test
-    public void testprocessIncomingVehicle(){
+    public void testprocessIncomingVehicleCar(){
         // `when(inputReaderUtil.readSelection()).thenReturn(1);` is setting up the mock behavior for
         // the `readSelection()` method of the `inputReaderUtil` object. It specifies that when this
         // method is called, it should return the integer value 1. This is done in order to simulate
@@ -85,7 +82,29 @@ public class ParkingServiceTest {
         // argument, it should return the integer value 1. This is done in order to simulate the
         // retrieval of the next available parking slot from the parking spot DAO during the test
         // execution.
-        when(parkingSpotDAO.getNextAvailableSlot(any(ParkingType.class))).thenReturn(1);
+        when(parkingSpotDAO.getNextAvailableSlot((ParkingType.CAR))).thenReturn(1);
+        // `parkingService.processIncomingVehicle();` is calling the `processIncomingVehicle()` method
+        // of the `ParkingService` class. This method is responsible for handling the process of a
+        // vehicle entering the parking system. It prompts the user to select a parking type, retrieves
+        // the next available parking spot of that type from the parking spot DAO, creates a new ticket
+        // with the vehicle registration number and parking spot, and saves the ticket in the ticket
+        // DAO.
+        parkingService.processIncomingVehicle();
+        verify(ticketDAO, Mockito.times(1)).saveTicket(any(Ticket.class));//creation
+    }
+    public void testprocessIncomingVehicleBike(){
+        // `when(inputReaderUtil.readSelection()).thenReturn(1);` is setting up the mock behavior for
+        // the `readSelection()` method of the `inputReaderUtil` object. It specifies that when this
+        // method is called, it should return the integer value 1. This is done in order to simulate
+        // the user input of selecting an option during the test execution.
+        when(inputReaderUtil.readSelection()).thenReturn(2);
+        // `when(parkingSpotDAO.getNextAvailableSlot(any(ParkingType.class))).thenReturn(1);` is
+        // setting up the mock behavior for the `getNextAvailableSlot` method of the `parkingSpotDAO`
+        // object. It specifies that when this method is called with any `ParkingType` object as an
+        // argument, it should return the integer value 1. This is done in order to simulate the
+        // retrieval of the next available parking slot from the parking spot DAO during the test
+        // execution.
+        when(parkingSpotDAO.getNextAvailableSlot((ParkingType.BIKE))).thenReturn(1);
         // `parkingService.processIncomingVehicle();` is calling the `processIncomingVehicle()` method
         // of the `ParkingService` class. This method is responsible for handling the process of a
         // vehicle entering the parking system. It prompts the user to select a parking type, retrieves
@@ -153,6 +172,8 @@ public class ParkingServiceTest {
 
     }
 
+    
+
     /**
      * The function tests the processExitingVehicle method in the parkingService class, specifically
      * checking if the ticketDAO's updateTicket method is called once when the ticket cannot be
@@ -184,30 +205,20 @@ public class ParkingServiceTest {
  * is no available parking spot and verifies that the inputReaderUtil.readVehicleRegistrationNumber()
  * method is not called.
  */
+
 @Test
 public void testGetNextParkingNumberIfAvailableParkingNumberNotFound() throws Exception {
-    // `when(inputReaderUtil.readSelection()).thenReturn(1);` is setting up the mock behavior for the
-    // `readSelection()` method of the `inputReaderUtil` object. It specifies that when this method is
-    // called, it should return the integer value 1. This is done in order to simulate the user input
-    // of selecting an option during the test execution.
     when(inputReaderUtil.readSelection()).thenReturn(1);
-    // The line `when(parkingSpotDAO.getNextAvailableSlot(any(ParkingType.class))).thenReturn(-1);` is
-    // setting up the mock behavior for the `getNextAvailableSlot` method of the `parkingSpotDAO`
-    // object. It specifies that when this method is called with any `ParkingType` object as an
-    // argument, it should return the integer value -1. This is done in order to simulate the scenario
-    // where there is no available parking spot.
     when(parkingSpotDAO.getNextAvailableSlot(any(ParkingType.class))).thenReturn(-1);
 
     parkingService.processIncomingVehicle();
-    // The above code is using Mockito to verify that the method `getNextAvailableSlot` of the
-    // `parkingSpotDAO` object is called exactly once with any `ParkingType` argument.
-    verify(parkingSpotDAO,Mockito.times(1)).getNextAvailableSlot(any(ParkingType.class));
-    // `verify(inputReaderUtil, Mockito.times(0)).readVehicleRegistrationNumber();` is verifying that
-    // the method `readVehicleRegistrationNumber()` of the `inputReaderUtil` object is not called
-    // during the test execution. It is used to check that the method is not invoked when there is no
-    // available parking spot, as specified in the test case.
-    verify(inputReaderUtil, Mockito.times(0)).readVehicleRegistrationNumber();
+
+    verify(parkingSpotDAO, times(1)).getNextAvailableSlot(any(ParkingType.class));
+    verify(parkingSpotDAO, times(0)).updateParking(any(ParkingSpot.class));
 }
+
+
+
 @Test
 public void testGetNextParkingNumberIfAvailableParkingNumberWrongArgument(){
     // The above code is using a mocking framework (such as Mockito) to mock the behavior of the
@@ -221,7 +232,6 @@ public void testGetNextParkingNumberIfAvailableParkingNumberWrongArgument(){
     parkingService.processIncomingVehicle();
     verify(inputReaderUtil, Mockito.times(1)).readSelection();
     verify(parkingSpotDAO, never()).getNextAvailableSlot(any(ParkingType.class));
-
 }
 }
 

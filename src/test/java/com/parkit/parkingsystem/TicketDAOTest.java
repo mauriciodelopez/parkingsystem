@@ -38,7 +38,7 @@ public class TicketDAOTest {
         parkingSpot = new ParkingSpot(1, ParkingType.CAR, false);
 
     }
-
+    
     @Test
 
     public void saveTicketTest(){
